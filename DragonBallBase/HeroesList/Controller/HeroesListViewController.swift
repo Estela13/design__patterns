@@ -10,46 +10,46 @@ import UIKit
 
 class HeroesListViewController: UIViewController {
     
-    var mainView: HeroesListView { self.view as! HeroesListView }
+    var mainView: HeroesListView { self.view as! HeroesListView }  // enlazamos este viewController con la vista que hemos creado nosotros en view. el self.view es el view que todo controller tiene
     var heroes: [HeroModel] = []
     
-    var viewModel: HeroListViewModel?
+    var viewModel: HeroListViewModel?                                           // se declara
     
     var tableViewDataSource: HeroesListTableViewDataSource?
     var tableViewDelegate: HeroesListTableViewDelegate?
     
-    override func loadView() {
+    override func loadView() {                                                       // es la que tu llamas para que se vea la app, que es la clase que tu has creado
         view = HeroesListView()
         
-        tableViewDataSource = HeroesListTableViewDataSource(tableView: mainView.heroesTableView)
-        mainView.heroesTableView.dataSource = tableViewDataSource
+        tableViewDataSource = HeroesListTableViewDataSource(tableView: mainView.heroesTableview)
+        mainView.heroesTableview.dataSource = tableViewDataSource
         
-        tableViewDelegate = HeroesListTableViewDelegate()
-        mainView.heroesTableView.delegate = tableViewDelegate
+        tableViewDelegate =  HeroesListTableViewDelegate()
+        mainView.heroesTableview.delegate = tableViewDelegate
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel = HeroListViewModel()
-        
+        viewModel = HeroListViewModel()                                         // se crea
         setUpUpdateUI()
-        setUpTableDelegate()
         getData()
+        setUpTableDelegate()
     }
-    
     func setUpUpdateUI() {
-        // PREPARÁNDOME PARA RECIBIR LOS DATOS QUE VIENE DEL VIEWMODEL
+        // PREPARANDOME PARA RECIBIR LOS DATOS QUE VIENEN DEL VIEWMODEL
         viewModel?.updateUI = { [weak self] heroes in
             self?.heroes = heroes
-            self?.tableViewDataSource?.heroes = heroes
+            self?.tableViewDataSource?.heroes = heroes                          // con esto actualiza la tabla, xk ya tiene el reloadData
         }
     }
     
+    
     func getData() {
-        // CALL API TO GET HERO LIST
-        viewModel?.fetchData()
-    }
+            // CALL API TO GET HERO LIST
+            viewModel?.fetchData()    // esto viene del viewModel de MVVM
+        }
+    
     
     func setUpTableDelegate() {
         tableViewDelegate?.didTapOnCell = { [weak self] index in
@@ -58,16 +58,16 @@ class HeroesListViewController: UIViewController {
                 return
             }
             
-            // Get the hero in the hero list according to the position index
+            // Get the hero in the hero likst according to the position
             let hero = datasource.heroes[index]
             
-            // Prepare the viewcontroller that I want to present
+            // prepare the viewcontroller that I want to present
             let heroDetailViewController = HeroDetailViewController(heroDetailModel: hero)
             
-            // Present the controller to show the details
+            // present the controller to show the details
             
-            self?.present(heroDetailViewController, animated: true)
-            
+            self?.present(heroDetailViewController, animated: true)         // es como un navigationController, pero se ve de arriba abajo
         }
     }
+        
 }
