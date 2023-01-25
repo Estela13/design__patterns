@@ -41,18 +41,14 @@ class LoginViewController: UIViewController {
         
         loginButton?.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
-    
-    func setUpUpdate(){
-        viewModel = LoginViewModel()
-        
-    }
+ 
         
     func getLogin(email: String, password: String){
 
         viewModel?.login(email: email , password: password, completion: { response in
             DispatchQueue.main.async {
                 self.errormessageView?.text = response
-                self.setUpUpdate()
+                
             }
             
         })
@@ -72,7 +68,7 @@ class LoginViewController: UIViewController {
          }
         
         self.getLogin(email: email, password: password)
-        setUpUpdate()
+        
     }
     
 }
